@@ -12,10 +12,9 @@ Functies
 8.Logboek(IO) Schrijf telkens naar een bestand welke acties er uitgevoerd zijn.
 """
 
-import module_autoverhuurfirma
-import sys
-from tabulate import tabulate
-
+import module_autoverhuurfirma # laad de module
+import sys                     # laad de break module
+from tabulate import tabulate  # afdrukken in een tabel
 
 
 # Hoofd deel 1 : kies de lijst
@@ -34,7 +33,6 @@ def keuze_menu():
     print("6.Wagen toevoegen")
     print("7.Wagen verwijderen")
 
-# 4:{"Merk":"Renault","Brandstof":"Diesel","Verhuurd":"ja"}}
 
 # 1.Druk items af
 def tonen(dictio):
@@ -43,7 +41,8 @@ def tonen(dictio):
         for key in wagen_info:
             print(key + ":", wagen_info[key])
     main()
-#1.a Tonen uitgebreid
+
+# 1.a Tonen uitgebreid in tabelvorm
 def uitgebr_tonen(dictio):
     headers = ["Nummer", "Merk", "Brandstof", "Verhuurd"]
     dictio = [[name, *inner.values()] for name, inner in dictio.items()]
@@ -51,6 +50,8 @@ def uitgebr_tonen(dictio):
     print(tabulate(dictio, headers=headers, tablefmt="grid"))
     print("")
     main()
+
+
 # 2.Toon beschikbare wagens
 def beschikb_wagens(dictio):
     teller = 0
@@ -63,6 +64,7 @@ def beschikb_wagens(dictio):
     if teller == 0: print("Geen enkele wagen is beschikbaar")
     main()
 
+
 # 3.Toon verhuurde wagens
 def verhuurde_wagens(dictio):
     teller = 0
@@ -74,6 +76,7 @@ def verhuurde_wagens(dictio):
                 print(key + ":", wagen_info[key])
     if teller == 0: print("Geen enkele wagen is verhuurd")
     main()
+
 
 # 4.Verhuur wagen
 def verhuur_wagen(dictio):
@@ -90,6 +93,7 @@ def verhuur_wagen(dictio):
                 print("\nWagen nr.:", keuze, " is nu verhuurd.")
     main()
 
+
 # 5.Beschikbaar stellen wagen
 def beschikb_stellen_wagen(dictio):
     for wagen_id in dictio.items():
@@ -103,12 +107,12 @@ def beschikb_stellen_wagen(dictio):
             else:
                 dictio[keuze]["Verhuurd"] = "nee"
                 print("\nWagen nr.:", keuze, " is nu terug beschikbaar.")
-
     main()
+
 
 # 6.Voeg nieuwe wagen toe
 def toevoegen(dictio):
-    wagen_id = max(list(dictio.keys())) + 1  #hier gaan we de hoogste wagennr zoeken en 1 bijtellen
+    wagen_id = max(list(dictio.keys())) + 1  # hier gaan we de hoogste wagennr zoeken en 1 bijtellen
     merk = input("Geef het merk van nieuwe wagen nr " + str(wagen_id) + " in: ")
     brandstof = input("Geef de brandstof in: ")
     dictio[wagen_id] = {"Merk": merk, "Brandstof": brandstof, "Verhuurd": "nee"}
@@ -117,8 +121,6 @@ def toevoegen(dictio):
     print("Wagen nr. " + str(wagen_id) + " is toegevoegd.")
     main()
 
-# 4:{"Merk":"Renault","Brandstof":"Diesel","Verhuurd":"ja"}}
-
 
 # 7.verwijderd een item uit de lijst
 def verwijder(dictio):
@@ -126,15 +128,16 @@ def verwijder(dictio):
         print(wagens)
     wagen_id = int(input("Geef de wagen nr. die je wenst te verwijderen: "))
     if wagen_id in dictio.keys():
-        bevestiging = input("Bent u zeker dat u wagen "+ str(wagen_id) + " wil verwijderen j/n ?")
+        bevestiging = input("Bent u zeker dat u wagen " + str(wagen_id) + " wil verwijderen j/n ?")
         if bevestiging == "j":
             dictio.pop(wagen_id)
             print("Wagen nr. " + str(wagen_id) + " is weg uit de lijst")
     else:
         print("Wagennr. " + str(wagen_id) + " is niet in de lijst")
-
     main()
-# Key en waarde aanpassen / word voorlopig niet gebruikt in dit programma
+
+
+# 8. Key en waarde aanpassen word voorlopig niet gebruikt in dit programma
 def aanpassen(dictio):
     tonen(dictio)
     aan_te_passen_key = input("Welke key wil u aanpassen: ")
@@ -148,7 +151,6 @@ def aanpassen(dictio):
         print("Key staat niet in de lijst")
 
 
-
 # hoofdprogramma
 def main():
     keuze_lijst()
@@ -158,7 +160,8 @@ def main():
         dictio = module_autoverhuurfirma.autos_verhuur
     elif lijst_kiezen == "2":
         dictio = module_autoverhuurfirma.bestelwagens_verhuur
-    elif lijst_kiezen == "stop": sys.exit()
+    elif lijst_kiezen == "stop":
+        sys.exit()
 
     keuze_menu()
     keuze = input("Maak een keuze 1-7 : ")
@@ -176,7 +179,7 @@ def main():
         toevoegen(dictio)
     elif (keuze == "7"):
         verwijder(dictio)
-    #elif (keuze == ""): word niet gebruikt
-        #dictio = aanpassen(dictio): idem
+    # elif (keuze == "8"): word niet gebruikt
+    # dictio = aanpassen(dictio): word niet gebruikt
 
 main()
